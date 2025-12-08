@@ -1,12 +1,11 @@
 import jwt
 
 
-class ApiVerifyClass:
-<<<<<<< HEAD
-    secret_key = "HKJWERFKJHFKJHFEWEKJH"
-=======
-    secret_key = "thilvrcvzckzeiejzprymoisrfnaypzxqnoxizimmxfkrdrmbyrhtibsjxjbijjliwfhjrtwmoecldkzdgsshsehnyubnzbvigdcfhwzcvbcplhogtawpsffqmffjndj"
->>>>>>> origin/containers
+class TokenService:
+    secret_key = # TODO get key from .env and create class instances via containers
+                 # it might also be nice to use class not only as wrapper for functions.
+                 # Additionally if you do so, it's probably better to go for @staticmethod
+                 # not classmethod
 
     @classmethod
     def verify_token(cls, token):
