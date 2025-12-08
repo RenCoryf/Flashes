@@ -4,11 +4,11 @@ from sqlalchemy import ForeignKey, Integer, String
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from .base import Base
+from .base import BaseTable
 from .card import Card
 
 
-class Bucket(Base):
+class Bucket(BaseTable):
     __tablename__ = "buckets"
 
     name: Mapped[str] = mapped_column(String(100), nullable=False)
