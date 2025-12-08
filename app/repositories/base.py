@@ -18,7 +18,7 @@ from app.models.tables import Base as base_table
 T = TypeVar("T", bound=base_table)
 
 
-class Base(Generic[T], ABC):
+class BaseRepo(Generic[T], ABC):
     def __init__(self, model: type[T], session: AsyncSession) -> None:
         self._model: type[T] = model
         self._session: AsyncSession = session
@@ -35,6 +35,7 @@ class Base(Generic[T], ABC):
             .values(object.to_dict())
         )
         _ = await self._session.execute(query)
+        await self._session.flush()
 
     @overload
     async def delete(self, object: T) -> None: ...
@@ -51,16 +52,17 @@ class Base(Generic[T], ABC):
     @overload
     async def get_by_id(self, object: T) -> T | None: ...
     @overload
-    async def get_by_id(self, object: UUID) -> T | None: ...  # is needed for
-
+    async def get_by_id(self, object: UUID) -> T | None: ...
+    # is needed for
     # avoiding struggles with getting files
+
     async def get_by_id(self, object: T | UUID) -> T | None:
         if isinstance(object, UUID):
             query = sql_select(self._model).where(self._model.id == object)
         else:
             query = sql_select(self._model).where(self._model.id == object.id)
         result = await self._session.execute(query)
-        return result.scalars().first()
+        return result.scalars().one()
 
     async def get_all(self) -> Sequence[T] | None:
         query = sql_select(self._model)

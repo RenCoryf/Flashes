@@ -8,7 +8,7 @@ from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy.sql import func
 
 
-class Base(DeclarativeBase):
+class BaseTable(DeclarativeBase):
     __abstract__ = True
 
     def get_fields_and_values(self):
