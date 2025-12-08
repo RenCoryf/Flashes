@@ -1,2 +1,3 @@
+from .config import Config
 from .database import Database
-from .config import ConfigContainer
+from .minio import Minio

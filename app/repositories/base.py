@@ -1,3 +1,4 @@
+from abc import ABC
 from typing import Any, Generic, Sequence, TypeVar, overload
 from uuid import UUID
 
@@ -12,12 +13,12 @@ from sqlalchemy import (
 )
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.Core.Models.Tables import Base
+from app.models.tables import Base as base_table
 
-T = TypeVar("T", bound=Base)
+T = TypeVar("T", bound=base_table)
 
 
-class BaseDAO(Generic[T]):
+class Base(Generic[T], ABC):
     def __init__(self, model: type[T], session: AsyncSession) -> None:
         self._model: type[T] = model
         self._session: AsyncSession = session
@@ -39,6 +40,7 @@ class BaseDAO(Generic[T]):
     async def delete(self, object: T) -> None: ...
     @overload
     async def delete(self, object: UUID) -> None: ...
+
     async def delete(self, object: T | UUID) -> None:
         if isinstance(object, UUID):
             query = sql_delete(self._model).where(self._model.id == object)
