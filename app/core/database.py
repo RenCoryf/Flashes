@@ -2,18 +2,11 @@ from contextlib import asynccontextmanager
 
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 
-from .config import config
 
 
 class Database:
-    def __init__(self):
-        self.url = self._make_url(
-            user=config.POSTGRES_USER,
-            password=config.POSTGRES_PASSWORD,
-            db_name=config.POSTGRES_DB,
-            host=config.POSTGRES_HOST,
-            port=config.POSTGRES_PORT,
-        )
+    def __init__(self, url):
+        self.url =
         self.engine = create_async_engine(self.url, echo=False, future=True)
         self._async_sessionmaker = async_sessionmaker(
             self.engine, expire_on_commit=False, class_=AsyncSession

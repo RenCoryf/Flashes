@@ -12,7 +12,7 @@ from sqlalchemy import (
 )
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.Core.Models.Tables import Base
+from app.models.tables import Base
 
 T = TypeVar("T", bound=Base)
 
