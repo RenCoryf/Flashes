@@ -1,3 +1,4 @@
+from abc import ABC
 from typing import Any, Generic, Sequence, TypeVar, overload
 from uuid import UUID
 
@@ -12,12 +13,16 @@ from sqlalchemy import (
 )
 from sqlalchemy.ext.asyncio import AsyncSession
 
+<<<<<<< HEAD:app/services/base.py
 from app.models.tables import Base
+=======
+from app.models.tables import Base as base_table
+>>>>>>> origin:app/repositories/base.py
 
-T = TypeVar("T", bound=Base)
+T = TypeVar("T", bound=base_table)
 
 
-class BaseDAO(Generic[T]):
+class BaseRepo(Generic[T], ABC):
     def __init__(self, model: type[T], session: AsyncSession) -> None:
         self._model: type[T] = model
         self._session: AsyncSession = session
@@ -34,11 +39,13 @@ class BaseDAO(Generic[T]):
             .values(object.to_dict())
         )
         _ = await self._session.execute(query)
+        await self._session.flush()
 
     @overload
     async def delete(self, object: T) -> None: ...
     @overload
     async def delete(self, object: UUID) -> None: ...
+
     async def delete(self, object: T | UUID) -> None:
         if isinstance(object, UUID):
             query = sql_delete(self._model).where(self._model.id == object)
@@ -49,16 +56,17 @@ class BaseDAO(Generic[T]):
     @overload
     async def get_by_id(self, object: T) -> T | None: ...
     @overload
-    async def get_by_id(self, object: UUID) -> T | None: ...  # is needed for
-
+    async def get_by_id(self, object: UUID) -> T | None: ...
+    # is needed for
     # avoiding struggles with getting files
+
     async def get_by_id(self, object: T | UUID) -> T | None:
         if isinstance(object, UUID):
             query = sql_select(self._model).where(self._model.id == object)
         else:
             query = sql_select(self._model).where(self._model.id == object.id)
         result = await self._session.execute(query)
-        return result.scalars().first()
+        return result.scalars().one()
 
     async def get_all(self) -> Sequence[T] | None:
         query = sql_select(self._model)
