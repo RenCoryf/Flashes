@@ -2,7 +2,7 @@ from contextlib import asynccontextmanager
 
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 
-from app.Config import config
+from .config import config
 
 
 class Database:
@@ -27,7 +27,7 @@ class Database:
             except Exception:
                 await session.rollback()
                 raise
-            else:
+            finally:
                 await session.commit()
 
     def _make_url(
