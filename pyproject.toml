@@ -13,5 +13,6 @@ dependencies = [
     "psycopg2-binary>=2.9.11",
     "python-json-logger>=4.0.0",
     "pyjwt>=2.10.1",
+    "dependency-injector>=4.48.3",
     "sqlalchemy>=2.0.44",
 ]

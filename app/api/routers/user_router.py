@@ -26,3 +26,14 @@ async def regisrtaion_user(user: User_dto):
     user = 228
     if user:
         # controller login user
+<<<<<<< HEAD
+=======
+
+
+@router.post("/login")
+async def login_user(user: User_dto):
+    # controller login user
+    user = 228
+    if user:
+        # controller login user
+>>>>>>> origin/containers
