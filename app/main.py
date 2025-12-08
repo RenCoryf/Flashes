@@ -1,6 +1,11 @@
-def main():
-    print("Hello from flashes!")
+from asyncio import run
+
+from app.logging import setup_logging
+
+
+async def main():
+    setup_logging()
 
 
 if __name__ == "__main__":
-    main()
+    run(main())
