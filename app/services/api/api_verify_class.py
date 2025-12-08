@@ -2,7 +2,7 @@ import jwt
 
 
 class ApiVerifyClass:
-    secret_key = "HKJWERFKJHFKJHFEWEKJH"
+    secret_key = "thilvrcvzckzeiejzprymoisrfnaypzxqnoxizimmxfkrdrmbyrhtibsjxjbijjliwfhjrtwmoecldkzdgsshsehnyubnzbvigdcfhwzcvbcplhogtawpsffqmffjndj"
 
     @classmethod
     def verify_token(cls, token):
