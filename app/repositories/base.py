@@ -1,3 +1,4 @@
+from abc import ABC
 from typing import Any, Generic, Sequence, TypeVar, overload
 from uuid import UUID
 
@@ -17,7 +18,7 @@ from app.models.tables import Base
 T = TypeVar("T", bound=Base)
 
 
-class BaseDAO(Generic[T]):
+class BaseDAO(Generic[T], ABC):
     def __init__(self, model: type[T], session: AsyncSession) -> None:
         self._model: type[T] = model
         self._session: AsyncSession = session
